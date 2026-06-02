@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Sparkles, FlaskConical, Leaf, Heart, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { products } from "@/lib/products";
+import { featuredSerumSlug, products } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
+import heroDropperUrl from "../assets/hero-dropper-v2.png?url";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,11 +38,15 @@ function Home() {
             </div>
           </div>
           <div className="relative">
-            <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-2xl bg-gradient-to-br from-[oklch(0.92_0.04_150)] via-[oklch(0.94_0.03_120)] to-[oklch(0.88_0.05_80)]">
-              <div className="absolute left-1/2 top-1/2 h-3/5 w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-background/80 shadow-2xl ring-1 ring-foreground/5" />
-              <div className="absolute right-8 top-12 h-20 w-20 rounded-full bg-accent/40 blur-xl" />
-              <div className="absolute bottom-10 left-8 h-24 w-24 rounded-full bg-primary/30 blur-2xl" />
-            </div>
+            <Link to="/loja/$slug" params={{ slug: featuredSerumSlug }} className="group block">
+              <div className="relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-white shadow-2xl transition group-hover:scale-[1.01]">
+                <img
+                  src={heroDropperUrl}
+                  alt="Frasco Skinbiome em destaque"
+                  className="h-full w-full scale-[1.16] object-contain"
+                />
+              </div>
+            </Link>
           </div>
         </div>
       </section>

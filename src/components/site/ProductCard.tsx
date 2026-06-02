@@ -1,12 +1,46 @@
 import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import type { Product } from "@/lib/products";
+import { featuredSerumSlug, gelPurificanteSlug, hydraBiotecSlug, solarVelvetSlug, radianceC10Slug, esfolianteRenewSlug } from "@/lib/products";
 import { brl, useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import heroDropperUrl from "../../assets/hero-dropper-v2.png?url";
+import gelPurificanteUrl from "../../assets/gel_purificante.png?url";
+import hydraBiotecUrl from "../../assets/hydra_biotec2.png?url";
+import solarVelvetUrl from "../../assets/solar_velvet2.png?url";
+import radianceC10Url from "../../assets/radiance_c10_3.png?url";
+import esfolianteRenewUrl from "../../assets/esfoliante_renew.png?url";
+
+const productImageUrls: Record<string, string> = {
+  [featuredSerumSlug]: heroDropperUrl,
+  [gelPurificanteSlug]: gelPurificanteUrl,
+  [hydraBiotecSlug]: hydraBiotecUrl,
+  [solarVelvetSlug]: solarVelvetUrl,
+  [radianceC10Slug]: radianceC10Url,
+  [esfolianteRenewSlug]: esfolianteRenewUrl,
+};
+
+const productImageClass: Record<string, string> = {
+  [featuredSerumSlug]: "h-full w-full scale-[1.12] object-contain",
+  [gelPurificanteSlug]: "h-[90%] w-[90%] object-contain",
+  [hydraBiotecSlug]: "h-[90%] w-[90%] object-contain",
+  [solarVelvetSlug]: "h-[90%] w-[90%] object-contain",
+  [radianceC10Slug]: "h-[90%] w-[90%] object-contain",
+  [esfolianteRenewSlug]: "h-[90%] w-[90%] object-contain",
+};
 
 // Visual placeholder: soft gradient bubble representing the product
 function Visual({ product }: { product: Product }) {
+  const imageUrl = productImageUrls[product.slug];
+  if (imageUrl) {
+    return (
+      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-md bg-white">
+        <img src={imageUrl} alt={product.name} className={productImageClass[product.slug]} />
+      </div>
+    );
+  }
+
   // deterministic hue from slug
   const hash = [...product.slug].reduce((a, c) => a + c.charCodeAt(0), 0);
   const tints = [

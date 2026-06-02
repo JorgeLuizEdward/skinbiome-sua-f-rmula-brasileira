@@ -2,7 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { ShoppingBag, User, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import brandLogoFullUrl from "../../assets/brand-logo-full.png?url";
 
 const nav = [
   { to: "/", label: "Início" },
@@ -14,13 +16,19 @@ const nav = [
 
 export function Header() {
   const { count } = useCart();
+  const { isAuthenticated, user } = useAuth();
   const [open, setOpen] = useState(false);
+  const firstName = user?.name?.trim().split(/\s+/)[0];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="font-display text-xl font-semibold tracking-tight text-foreground">
-          Skinbiome<span className="text-accent">.</span>
+    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex h-32 max-w-7xl items-center justify-between px-4 sm:h-36 sm:px-6 lg:px-8">
+        <Link to="/" className="-mt-2 inline-flex items-center bg-transparent">
+          <img
+            src={brandLogoFullUrl}
+            alt="Skinnova Beleza Facial"
+            className="h-[12.25rem] w-auto bg-transparent object-contain"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
@@ -41,8 +49,14 @@ export function Header() {
           <Button asChild size="sm" className="hidden md:inline-flex">
             <Link to="/quiz">Fazer meu quiz</Link>
           </Button>
-          <Link to="/conta" aria-label="Conta" className="rounded-md p-2 text-foreground hover:bg-muted">
+          <Link to="/conta" aria-label="Conta" className="relative inline-flex items-center gap-2 rounded-md px-2 py-1.5 text-foreground hover:bg-muted">
             <User className="h-5 w-5" />
+            {isAuthenticated && firstName && (
+              <span className="hidden max-w-[92px] truncate text-sm font-medium sm:inline">
+                {firstName}
+              </span>
+            )}
+            {isAuthenticated && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-primary" />}
           </Link>
           <Link to="/carrinho" aria-label="Carrinho" className="relative rounded-md p-2 text-foreground hover:bg-muted">
             <ShoppingBag className="h-5 w-5" />

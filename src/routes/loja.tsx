@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { products } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -21,10 +21,16 @@ const concerns = ["acne", "manchas", "rugas", "oleosidade", "ressecamento", "sen
 const lines = ["Limpeza", "Tratamento", "Hidratação", "Proteção", "Corpo"];
 
 function LojaPage() {
+  const { pathname } = useLocation();
   const [skin, setSkin] = useState<string[]>([]);
   const [conc, setConc] = useState<string[]>([]);
   const [line, setLine] = useState<string[]>([]);
   const [price, setPrice] = useState<number>(150);
+
+  // "/loja/$slug" é rota filha: quando estiver nela, renderiza a tela individual.
+  if (/^\/loja\/[^/]+$/.test(pathname)) {
+    return <Outlet />;
+  }
 
   const filtered = useMemo(() =>
     products.filter((p) =>

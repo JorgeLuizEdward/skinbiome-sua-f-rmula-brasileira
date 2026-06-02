@@ -4,6 +4,11 @@ import { kits } from "@/lib/products";
 import { brl, useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import kitAcneControlUrl from "../assets/kit_acne_control.png?url";
+
+const kitImageUrls: Record<string, string> = {
+  "acne-control": kitAcneControlUrl,
+};
 
 export const Route = createFileRoute("/kits")({
   head: () => ({
@@ -28,9 +33,16 @@ function KitsPage() {
         {kits.map((k) => {
           const sum = k.itemPrices.reduce((a, b) => a + b, 0);
           const save = sum - k.price;
+          const imageUrl = kitImageUrls[k.slug];
           return (
             <article key={k.slug} className="flex flex-col rounded-2xl border border-border bg-background p-8">
-              <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-[oklch(0.92_0.04_150)] to-[oklch(0.85_0.05_80)]" />
+              {imageUrl ? (
+                <div className="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-white">
+                  <img src={imageUrl} alt={k.name} className="h-full w-full object-contain" />
+                </div>
+              ) : (
+                <div className="aspect-[4/3] rounded-xl bg-gradient-to-br from-[oklch(0.92_0.04_150)] to-[oklch(0.85_0.05_80)]" />
+              )}
               <h2 className="mt-6 font-display text-2xl font-semibold">{k.name}</h2>
               <p className="mt-2 text-sm text-muted-foreground">{k.description}</p>
               <ul className="mt-6 space-y-2 text-sm">
